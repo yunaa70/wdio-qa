@@ -1,0 +1,55 @@
+const { expect } = require('@wdio/globals');
+const { loginAsValidUser, addFirstProductToCart } = require('../helpers/flows');
+const CartPage = require('../pages/CartPage');
+const CheckoutPage = require('../pages/CheckoutPage');
+const { SHIPPING, PAYMENT } = require('../data/testData');
+
+/**
+ * 05. 결제 플로우
+ *
+ * 배송지/결제수단 입력과 주문 완료를 검증한다.
+ * 미입력 시 진행이 막히는지(negative)도 함께 확인한다.
+ * 각 테스트는 초기화 → 로그인 → 장바구니 담기 → 결제 진입까지 준비한다.
+ */
+describe('05. 결제 플로우', () => {
+  beforeEach(async () => {
+    await loginAsValidUser();
+    await addFirstProductToCart();
+    await CartPage.proceedToCheckout();
+  });
+
+  it('[TC-CHECK-001] 결제 진행 시 배송지 입력 화면이 표시된다', async () => {
+    await expect(await CheckoutPage.isShippingPageDisplayed()).toBe(true);
+  });
+
+  it('[TC-CHECK-002] 배송지 미입력 시 다음 단계로 넘어가지 않는다', async () => {
+    await CheckoutPage.goToPayment();
+
+    await expect(await CheckoutPage.isShippingPageDisplayed()).toBe(true);
+  });
+
+  it('[TC-CHECK-003] 유효한 배송지 입력 후 결제수단 화면으로 이동한다', async () => {
+    await CheckoutPage.enterShippingInfo(SHIPPING.valid);
+    await CheckoutPage.goToPayment();
+
+    // 결제수단 화면 진입 = 배송지 화면을 벗어남
+    await expect(await CheckoutPage.isShippingPageDisplayed()).toBe(false);
+  });
+
+  it('[TC-CHECK-004] 결제수단 미입력 시 주문이 완료되지 않는다', async () => {
+    await CheckoutPage.enterShippingInfo(SHIPPING.valid);
+    await CheckoutPage.goToPayment();
+    await CheckoutPage.reviewOrder();
+
+    await expect(await CheckoutPage.isOrderComplete()).toBe(false);
+  });
+
+  it('[TC-CHECK-005] 배송지+결제수단 입력 후 주문이 완료된다', async () => {
+    await CheckoutPage.enterShippingInfo(SHIPPING.valid);
+    await CheckoutPage.goToPayment();
+    await CheckoutPage.enterPaymentInfo(PAYMENT.valid);
+    await CheckoutPage.reviewOrder();
+
+    await expect(await CheckoutPage.isOrderComplete()).toBe(true);
+  });
+});
