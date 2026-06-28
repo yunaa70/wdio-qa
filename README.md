@@ -1,6 +1,6 @@
 # SauceLabs My Demo App · 모바일 E2E 자동화
 
-Appium + WebdriverIO + Mocha로 짠 Android E2E 테스트입니다.
+Appium + WebdriverIO + Java Script로 짠 Android E2E 테스트입니다.
 수동으로 반복하던 회귀 검증을 자동화로 옮기는 걸 목표로, POM 구조와 Allure 리포트를 붙였습니다.
 
 대상 앱: SauceLabs My Demo App (`com.saucelabs.mydemoapp.android`)
