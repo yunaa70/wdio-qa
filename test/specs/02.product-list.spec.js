@@ -3,11 +3,7 @@ const { loginAsValidUser } = require('../helpers/flows');
 const ProductListPage = require('../pages/ProductListPage');
 const ProductDetailPage = require('../pages/ProductDetailPage');
 
-/**
- * 02. 상품 목록
- *
- * 목록 표시, 상품 개수, 상세 진입, 정렬을 검증한다.
- */
+// 02. 상품 목록 — 표시/개수/상세 진입/정렬.
 describe('02. 상품 목록', () => {
   before(async () => {
     await loginAsValidUser();

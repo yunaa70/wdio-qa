@@ -1,11 +1,5 @@
-/**
- * 앱의 모든 locator를 화면별로 중앙 관리한다.
- *
- * 원칙:
- * - spec이나 page 메서드는 절대 raw locator 문자열을 직접 쓰지 않는다.
- *   반드시 이 파일을 참조한다 → locator 변경 시 여기 한 곳만 수정.
- * - 안정성 우선순위: accessibilityId(~) > resource-id > uiautomator > xpath
- */
+// 모든 locator를 화면별로 모아둔다. page/spec은 여기만 참조한다.
+// 우선순위: accessibilityId(~) > resource-id(id=) > uiautomator(android=)
 
 const PKG = 'com.saucelabs.mydemoapp.android';
 

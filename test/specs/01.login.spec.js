@@ -4,12 +4,7 @@ const LoginPage = require('../pages/LoginPage');
 const ProductListPage = require('../pages/ProductListPage');
 const { ACCOUNTS } = require('../data/testData');
 
-/**
- * 01. 로그인
- *
- * 정상 로그인과 입력 검증(빈 값, 잠긴 계정)을 다룬다.
- * 각 테스트는 앱을 초기화해 항상 동일한 시작 상태를 보장한다.
- */
+// 01. 로그인 — 정상 로그인 + 입력 검증(빈 값/잠긴 계정). 각 테스트는 앱 초기화로 동일 시작 상태 보장.
 describe('01. 로그인', () => {
   beforeEach(async () => {
     await resetApp();

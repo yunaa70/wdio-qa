@@ -1,11 +1,5 @@
-/**
- * WebdriverIO 설정.
- *
- * - Appium 로컬 서버(127.0.0.1:4723)에 연결한다.
- * - UiAutomator2로 Android 앱을 구동한다.
- * - 환경변수로 디바이스/앱 정보를 주입해, 코드 수정 없이 환경 전환이 가능하다.
- * - Allure 리포터로 상세 리포트를 생성한다.
- */
+// WebdriverIO 설정. 로컬 Appium(4723) + UiAutomator2.
+// 디바이스/앱 정보는 .env로 주입해 코드 수정 없이 환경을 바꾼다.
 exports.config = {
   runner: 'local',
 
@@ -55,9 +49,7 @@ exports.config = {
     ],
   ],
 
-  /**
-   * 테스트 실패 시 스크린샷을 자동으로 Allure에 첨부한다.
-   */
+  // 실패한 테스트만 스크린샷을 찍어 Allure에 첨부한다.
   afterTest: async function (test, context, { passed }) {
     if (!passed) {
       await browser.takeScreenshot();

@@ -4,12 +4,7 @@ const LoginPage = require('../pages/LoginPage');
 const ProductListPage = require('../pages/ProductListPage');
 const { ACCOUNTS } = require('../data/testData');
 
-/**
- * 06. 로그아웃
- *
- * 로그아웃 동작과 이후 상태(로그인 화면 복귀, 재로그인 가능)를 검증한다.
- * 각 테스트는 초기화 후 로그인된 상태에서 시작한다.
- */
+// 06. 로그아웃 — 동작 + 이후 상태(로그인 화면 복귀, 재로그인).
 describe('06. 로그아웃', () => {
   beforeEach(async () => {
     await loginAsValidUser();

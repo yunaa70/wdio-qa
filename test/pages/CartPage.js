@@ -1,9 +1,6 @@
 const BasePage = require('./BasePage');
 const { CART } = require('../constants/selectors');
 
-/**
- * 장바구니 화면 Page Object.
- */
 class CartPage extends BasePage {
   async getProductTitle() {
     return this.getText(CART.PRODUCT_TITLE);
@@ -17,7 +14,6 @@ class CartPage extends BasePage {
     return this.getText(CART.QUANTITY);
   }
 
-  /** 첫 상품 삭제 */
   async removeItem() {
     await this.click(CART.REMOVE_BTN);
   }
@@ -30,7 +26,6 @@ class CartPage extends BasePage {
     }
   }
 
-  /** 결제 단계로 진행 */
   async proceedToCheckout() {
     await this.click(CART.CHECKOUT_BTN);
   }

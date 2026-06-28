@@ -3,12 +3,7 @@ const { loginAsValidUser } = require('../helpers/flows');
 const ProductListPage = require('../pages/ProductListPage');
 const ProductDetailPage = require('../pages/ProductDetailPage');
 
-/**
- * 03. 상품 상세
- *
- * 상품 정보 표시와 수량 증감(경계값 포함)을 검증한다.
- * 각 테스트는 목록에서 첫 상품을 새로 열어 동일한 시작 상태를 보장한다.
- */
+// 03. 상품 상세 — 정보 표시 + 수량 증감(경계값 포함). 매 테스트 첫 상품을 새로 연다.
 describe('03. 상품 상세', () => {
   before(async () => {
     await loginAsValidUser();

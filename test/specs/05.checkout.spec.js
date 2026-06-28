@@ -4,13 +4,7 @@ const CartPage = require('../pages/CartPage');
 const CheckoutPage = require('../pages/CheckoutPage');
 const { SHIPPING, PAYMENT } = require('../data/testData');
 
-/**
- * 05. 결제 플로우
- *
- * 배송지/결제수단 입력과 주문 완료를 검증한다.
- * 미입력 시 진행이 막히는지(negative)도 함께 확인한다.
- * 각 테스트는 초기화 → 로그인 → 장바구니 담기 → 결제 진입까지 준비한다.
- */
+// 05. 결제 — 배송지/결제수단 입력 + 주문 완료. 미입력 시 진행이 막히는지도 검증.
 describe('05. 결제 플로우', () => {
   beforeEach(async () => {
     await loginAsValidUser();

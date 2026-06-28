@@ -1,127 +1,78 @@
 const { $, $$, driver } = require('@wdio/globals');
 
 /**
- * 모든 Page Object의 부모 클래스.
- *
- * 설계 원칙:
- * - 모든 상호작용은 명시적 대기를 내장한다 (pause/sleep 지양).
- * - Page Object는 이 메서드들만 사용하고 driver를 직접 만지지 않는다.
- *   → 대기/재시도 정책이 한 곳에 모여 안정성을 보장한다.
- * - 액션마다 의미 있는 동작을 보장해, 플래키(flaky) 테스트를 줄인다.
+ * 모든 Page Object의 부모.
+ * 모든 상호작용에 명시적 대기를 넣어 flaky를 줄이고,
+ * driver 호출을 여기로 모아 대기 정책을 한곳에서 관리한다.
  */
 class BasePage {
-  /** 기본 명시적 대기 시간 (ms) */
   get defaultTimeout() {
     return 10000;
   }
 
-  /**
-   * 요소가 표시될 때까지 대기 후 반환한다.
-   * @param {string} selector
-   * @param {number} [timeout]
-   * @returns {Promise<WebdriverIO.Element>}
-   */
   async waitForDisplayed(selector, timeout = this.defaultTimeout) {
-    const element = await $(selector);
-    await element.waitForDisplayed({
+    const el = await $(selector);
+    await el.waitForDisplayed({
       timeout,
-      timeoutMsg: `요소가 ${timeout}ms 내에 표시되지 않았습니다 → ${selector}`,
+      timeoutMsg: `not displayed in ${timeout}ms → ${selector}`,
     });
-    return element;
+    return el;
   }
 
-  /**
-   * 요소를 클릭한다. 표시될 때까지 대기 후 클릭.
-   * @param {string} selector
-   */
   async click(selector) {
-    const element = await this.waitForDisplayed(selector);
-    await element.click();
+    const el = await this.waitForDisplayed(selector);
+    await el.click();
   }
 
-  /**
-   * 텍스트를 입력한다. 기존 값을 지우고 새로 입력.
-   * @param {string} selector
-   * @param {string} value
-   */
   async setValue(selector, value) {
-    const element = await this.waitForDisplayed(selector);
-    await element.clearValue();
-    await element.setValue(value);
+    const el = await this.waitForDisplayed(selector);
+    await el.clearValue();
+    await el.setValue(value);
   }
 
-  /**
-   * 요소의 텍스트를 반환한다.
-   * @param {string} selector
-   * @returns {Promise<string>}
-   */
   async getText(selector) {
-    const element = await this.waitForDisplayed(selector);
-    return element.getText();
+    const el = await this.waitForDisplayed(selector);
+    return el.getText();
   }
 
-  /**
-   * 요소 표시 여부를 boolean으로 반환한다 (단언 아님, 분기 판단용).
-   * 짧은 대기 후 판단하며, 없으면 false.
-   * @param {string} selector
-   * @param {number} [timeout]
-   * @returns {Promise<boolean>}
-   */
+  // 단언이 아니라 분기 판단용. 짧게 대기하고 없으면 false.
   async isDisplayed(selector, timeout = 3000) {
     try {
-      const element = await $(selector);
-      await element.waitForDisplayed({ timeout });
+      const el = await $(selector);
+      await el.waitForDisplayed({ timeout });
       return true;
     } catch {
       return false;
     }
   }
 
-  /**
-   * 셀렉터에 매칭되는 모든 요소를 반환한다.
-   * @param {string} selector
-   * @returns {Promise<WebdriverIO.Element[]>}
-   */
   async getAll(selector) {
     return $$(selector);
   }
 
-  /**
-   * UiScrollable로 특정 텍스트가 보일 때까지 스크롤한다.
-   * 좌표 기반 스크롤보다 안정적이다 (해상도 독립적).
-   * @param {string} text
-   */
   async scrollToText(text) {
-    const uiSelector =
+    const ui =
       'new UiScrollable(new UiSelector().scrollable(true))' +
       `.scrollIntoView(new UiSelector().textContains("${text}"))`;
-    await $(`android=${uiSelector}`).waitForDisplayed({
+    await $(`android=${ui}`).waitForDisplayed({
       timeout: this.defaultTimeout,
-      timeoutMsg: `스크롤 후에도 "${text}"를 찾지 못했습니다.`,
+      timeoutMsg: `not found after scroll → "${text}"`,
     });
   }
 
-  /**
-   * 특정 요소가 화면에 보일 때까지 UiScrollable로 스크롤한다.
-   * resource-id 기반이라 텍스트가 없는 버튼(+/-)에도 동작한다.
-   * @param {string} selector  'id=...' 형식의 셀렉터
-   */
+  // resource-id 기반이라 +/- 같은 텍스트 없는 버튼에도 쓴다.
   async scrollToElement(selector) {
-    // 'id=com...:id/plusIV' 에서 resource-id 부분만 추출
     const resourceId = selector.replace(/^id=/, '');
-    const uiSelector =
+    const ui =
       'new UiScrollable(new UiSelector().scrollable(true))' +
       `.scrollIntoView(new UiSelector().resourceId("${resourceId}"))`;
     try {
-      await $(`android=${uiSelector}`).waitForExist({ timeout: this.defaultTimeout });
+      await $(`android=${ui}`).waitForExist({ timeout: this.defaultTimeout });
     } catch {
-      // 스크롤이 불가능한 화면(이미 다 보임)이면 무시하고 진행
+      // 스크롤 영역이 없으면(이미 다 보임) 그냥 진행
     }
   }
 
-  /**
-   * 시스템 뒤로가기.
-   */
   async goBack() {
     await driver.back();
   }

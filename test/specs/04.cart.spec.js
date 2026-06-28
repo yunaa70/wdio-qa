@@ -3,13 +3,7 @@ const { loginAsValidUser, addFirstProductToCart } = require('../helpers/flows');
 const ProductListPage = require('../pages/ProductListPage');
 const CartPage = require('../pages/CartPage');
 
-/**
- * 04. 장바구니
- *
- * 상품 담기/표시/삭제/결제 진입을 검증한다.
- * 각 테스트는 앱을 초기화해 로그인하고, 첫 상품을 새로 담아
- * 항상 동일한 장바구니 상태에서 시작한다 (테스트 독립성).
- */
+// 04. 장바구니 — 담기/표시/삭제/결제 진입. 매 테스트 첫 상품을 새로 담아 동일 상태에서 시작.
 describe('04. 장바구니', () => {
   beforeEach(async () => {
     await loginAsValidUser();

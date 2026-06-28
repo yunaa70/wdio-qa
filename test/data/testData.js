@@ -1,17 +1,8 @@
-/**
- * 테스트 데이터를 코드(spec)에서 분리한다.
- *
- * 이점:
- * - 값이 바뀌어도 spec 로직은 변경되지 않는다.
- * - 동일 시나리오를 여러 데이터로 돌리는 data-driven 테스트가 쉬워진다.
- * - 계정/카드 정보가 한 곳에 모여 관리가 쉽다.
- */
+// 계정/배송/결제 데이터를 spec에서 분리. 값이 바뀌어도 테스트 로직은 그대로 둔다.
 
 const ACCOUNTS = {
-  /** 정상 로그인 계정 */
   valid: { username: 'bod@example.com', password: '10203040' },
-  /** 잠긴 계정 (로그인 거부됨) */
-  locked: { username: 'alice@example.com', password: '10203040' },
+  locked: { username: 'alice@example.com', password: '10203040' }, // 로그인 거부 케이스용
 };
 
 const SHIPPING = {
