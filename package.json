@@ -10,12 +10,20 @@
     "allure:open": "allure open allure-report",
     "test:report": "npm test ; npm run allure:generate && npm run allure:open"
   },
-  "keywords": ["appium", "webdriverio", "mocha", "pom", "qa", "mobile-automation", "allure"],
+  "keywords": [
+    "appium",
+    "webdriverio",
+    "mocha",
+    "pom",
+    "qa",
+    "mobile-automation",
+    "allure"
+  ],
   "license": "MIT",
   "devDependencies": {
     "@wdio/allure-reporter": "^8.40.0",
     "@wdio/appium-service": "^8.40.0",
-    "@wdio/cli": "^8.40.0",
+    "@wdio/cli": "^8.46.0",
     "@wdio/local-runner": "^8.40.0",
     "@wdio/mocha-framework": "^8.40.0",
     "@wdio/spec-reporter": "^8.40.0",
