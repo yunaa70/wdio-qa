@@ -1,6 +1,8 @@
 const BasePage = require('./BasePage');
 const { PRODUCT_DETAIL } = require('../constants/selectors');
 
+// 상품 상세 화면
+
 class ProductDetailPage extends BasePage {
   async getTitle() {
     return this.getText(PRODUCT_DETAIL.TITLE);
