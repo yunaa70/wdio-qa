@@ -16,6 +16,23 @@ class CartPage extends BasePage {
   async getQuantity() {
     return this.getText(CART.QUANTITY);
   }
+  // 가격을 숫자로 반환 ("$ 29.99" -> 29.99)
+  async getProductPriceNumber() {
+    const text = await this.getText(CART.PRODUCT_PRICE);
+    return parseFloat(text.replace(/[^0-9.]/g, ''));
+  }
+
+  // 수량을 숫자로 반환
+  async getQuantityNumber() {
+    const text = await this.getText(CART.QUANTITY);
+    return parseInt(text.replace(/[^0-9]/g, ''), 10);
+  }
+
+  // 장바구니에 담긴 상품 줄 수
+  async getItemCount() {
+    const titles = await this.getAll(CART.PRODUCT_TITLE);
+    return titles.length;
+  }
 
   // 상품 삭제
   async removeItem() {

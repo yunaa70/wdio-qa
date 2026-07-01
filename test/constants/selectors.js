@@ -34,6 +34,7 @@ module.exports = {
     SORT_BTN: `id=${PKG}:id/sortIV`,
     SORT_PRICE_ASC: `id=${PKG}:id/priceAscCL`,
     SORT_PRICE_DESC: `id=${PKG}:id/priceDesCL`,
+    PRODUCT_PRICE: '~Product Price',
   },
 
   PRODUCT_DETAIL: {

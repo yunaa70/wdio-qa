@@ -33,6 +33,17 @@ class ProductListPage extends BasePage {
     return titles[0].getText();
   }
 
+  // 화면의 모든 상품 가격을 숫자 배열로 반환 ("$ 29.99" -> 29.99)
+  async getAllPrices() {
+    const priceEls = await this.getAll(PRODUCT_LIST.PRODUCT_PRICE);
+    const prices = [];
+    for (const el of priceEls) {
+      const text = await el.getText();
+      prices.push(parseFloat(text.replace(/[^0-9.]/g, '')));
+    }
+    return prices;
+  }
+
   // 가격 오름차순 정렬
   async sortByPriceAsc() {
     await this.click(PRODUCT_LIST.SORT_BTN);

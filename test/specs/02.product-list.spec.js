@@ -37,18 +37,20 @@ describe('02. 상품 목록', () => {
   });
 
   it('[TC-PLIST-005] 가격 오름차순 정렬 시 정렬된 상태로 변경', async () => {
-    const before = await ProductListPage.getFirstProductTitle();
-
     await ProductListPage.sortByPriceAsc();
 
-    const after = await ProductListPage.getFirstProductTitle();
-    await expect(after).not.toEqual(before);
+    const prices = await ProductListPage.getAllPrices();
+    const expected = [...prices].sort((a, b) => a - b);
+
+    await expect(prices).toEqual(expected);
   });
 
-  it('[TC-PLIST-006] 가격 내림차순 정렬', async () => {
+  it('[TC-PLIST-006] 가격 내림차순 정렬 시 정렬된 상태로 변경', async () => {
     await ProductListPage.sortByPriceDesc();
 
-    const count = await ProductListPage.getProductCount();
-    await expect(count).toBeGreaterThan(0);
+    const prices = await ProductListPage.getAllPrices();
+    const expected = [...prices].sort((a, b) => b - a);
+
+    await expect(prices).toEqual(expected);
   });
 });

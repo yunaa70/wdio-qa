@@ -1,6 +1,5 @@
 // 05. 결제 — 배송정보 입력 + 주문 완료 
 // 미입력 차단도 검증
-
 const { expect } = require('@wdio/globals');
 const { loginAsValidUser, addFirstProductToCart } = require('../helpers/flows');
 const CartPage = require('../pages/CartPage');
